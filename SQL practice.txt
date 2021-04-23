@@ -56,4 +56,17 @@ WHERE Product.model = Laptop.model
 AND Laptop.hd >= 10;
 
 ==============================================================================================================================
+7) Найдите номера моделей и цены всех имеющихся в продаже продуктов (любого типа) производителя B (латинская буква).
+
+SELECT PC.model, PC.price
+FROM PC INNER JOIN Product ON PC.model = product.model
+WHERE product.maker = 'B'
+UNION
+SELECT laptop.model, laptop.price
+FROM laptop INNER JOIN Product ON laptop.model = product.model  
+WHERE product.maker= 'B'
+UNION
+SELECT printer.model, printer.price
+FROM printer INNER JOIN product ON printer.model = product.model  
+WHERE product.maker= 'B';
 
