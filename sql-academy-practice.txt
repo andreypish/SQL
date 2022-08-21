@@ -1,0 +1,126 @@
+//Вывести все рейсы, совершенные из Москвы
+SELECT *
+FROM Trip
+WHERE town_from = 'Moscow'
+
+//Вывести все названия самолётов, на которых можно улететь в Москву
+SELECT DISTINCT plane
+FROM Trip
+WHERE town_to = 'Moscow'
+
+//Какие компании организуют перелеты с Владивостока (Vladivostok)?
+SELECT DISTINCT name
+FROM Company,
+  Trip
+WHERE Company.id = Trip.company
+  AND Trip.town_from = 'Vladivostok'
+  
+//Вывести имена людей, которые заканчиваются на "man"
+SELECT name
+FROM Passenger
+WHERE name LIKE '%man'
+
+//Вывести количество рейсов, совершенных на TU-134
+SELECT COUNT(*) as count
+FROM Trip
+WHERE plane = 'TU-154'
+
+//Какие компании совершали перелеты на Boeing
+SELECT DISTINCT Company.name
+FROM Company,
+  Trip
+WHERE Company.id = Trip.company
+  and trip.plane = 'Boeing'
+  
+//В какие города летал Bruce Willis
+SELECT town_to
+FROM trip
+  LEFT JOIN pass_in_trip ON trip.id = pass_in_trip.trip
+  LEFT JOIN passenger ON pass_in_trip.passenger = passenger.id
+WHERE passenger.name = 'Bruce Willis'
+
+//Сколько рейсов совершили авиакомпании с Ростова (Rostov) в Москву (Moscow) ?
+SELECT COUNT(*) AS count
+FROM Trip
+WHERE town_from = 'Rostov'
+  AND town_to = 'Moscow'
+  
+//Удалить все перелеты, совершенные из Москвы (Moscow).
+delete FROM Trip
+WHERE town_from = 'Moscow'
+
+//Вывести вылеты, совершенные с 10 ч. по 14 ч. 1 января 1900 г.
+SELECT *
+from Trip
+WHERE time_out BETWEEN '1900-01-01T10:00:00.000Z' AND '1900-01-01T14:00:00.000Z'
+
+//Вывести пассажиров с самым длинным именем
+SELECT name
+FROM Passenger
+order by length(name) desc
+limit 1
+
+//Вывести имена людей, у которых есть полный тёзка среди пассажиров
+SELECT name
+FROM Passenger
+GROUP BY name
+HAVING COUNT(*) > 1
+
+
+
+//Найти имена всех матерей (mother)
+SELECT member_name
+FROM FamilyMembers
+WHERE status = 'mother'
+
+//Измените имя "Andie Quincey" на новое "Andie Anthony".
+update FamilyMembers
+SET member_name = 'Andie Anthony'
+WHERE member_name = 'Andie Quincey'
+
+//Узнать, кто старше всех в семьe
+SELECT member_name
+FROM FamilyMembers
+WHERE birthday IN (
+    SELECT MIN(birthday)
+    FROM FamilyMembers
+  )
+  
+//Вывести всех членов семьи с фамилией Quincey
+SELECT *
+FROM FamilyMembers
+WHERE member_name LIKE '%Quincey'
+
+//Удалить всех членов семьи с фамилией "Quincey"
+delete FROM FamilyMembers
+WHERE member_name LIKE '%Quincey'
+
+
+
+//Во сколько начинается 4-ый учебный предмет по расписанию ?
+SELECT start_pair
+FROM Timepair
+WHERE id = '4'
+
+//Сколько всего 10-ых классов
+SELECT COUNT(*) AS COUNT
+FROM Class
+WHERE name LIKE '10%'
+
+//Выведите информацию об обучающихся живущих на улице Пушкина (ul. Pushkina)?
+SELECT *
+FROM Student
+WHERE address LIKE '%Pushkina%'
+
+//Сколько Анн (Anna) учится в школе ?
+SELECT COUNT(*) AS count
+FROM Student
+WHERE first_name = 'Anna'
+
+
+
+//Вывести пользователей,указавших Белорусский номер телефона ?
+Телефонный код Белоруссии +375.
+SELECT *
+FROM Users
+WHERE phone_number LIKE '+375%'
